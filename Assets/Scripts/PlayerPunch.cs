@@ -10,6 +10,8 @@ public class PlayerPunch : MonoBehaviour
     [SerializeField] private float punchCooldown = 0.4f;
     [SerializeField] private float hitboxDelay = 0.1f;
 
+    public event System.Action PunchStarted;
+
     private InputAction _leftPunch;
     private InputAction _rightPunch;
     private float _nextPunchTime;
@@ -50,6 +52,7 @@ public class PlayerPunch : MonoBehaviour
 
         _nextPunchTime = Time.time + punchCooldown;
         upperBodyAnimator.SetTrigger(trigger);
+        PunchStarted?.Invoke();
 
         Hitbox fist = trigger == "PunchLeft" ? leftFistHitbox : rightFistHitbox;
         if (fist != null)
